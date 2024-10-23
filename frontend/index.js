@@ -8,9 +8,25 @@ async function sprintChallenge5() { // Note the async keyword so you can use `aw
   // 🧠 Use Axios to GET learners and mentors.
   // ❗ Use the variables `mentors` and `learners` to store the data.
   // ❗ Use the await keyword when using axios.
+  const learnersData = await axios.get ('http://localhost:3003/api/learners') 
+  const mentorData = await axios.get ('http://localhost:3003/api/mentors')
 
-  let mentors = [] // fix this
-  let learners = [] // fix this
+  let mentors = mentorData.data // fix this
+  let learners = learnersData.data // fix this
+  
+  const combineData = []
+  
+  learners.forEach ((learner)=> {
+    const newlearner = {
+      ...learner, 
+      mentors: learner.mentors.map ((mentorId)=>{
+        const mentorName = mentors.find ((mentorObject)=> mentorId == mentorObject.id)
+     return mentorName.firstName + " " + mentorName.lastName
+      })
+    }
+    combineData.push (newlearner)
+  })
+    
 
   // 👆 ==================== TASK 1 END ====================== 👆
 
@@ -19,6 +35,24 @@ async function sprintChallenge5() { // Note the async keyword so you can use `aw
   // 🧠 Combine learners and mentors.
   // ❗ At this point the learner objects only have the mentors' IDs.
   // ❗ Fix the `learners` array so that each learner ends up with this exact structure:
+
+
+    learners = learners.map(learner => {
+      const mentorNames = learner.mentors.map(id => {
+        const mentor = mentors.find(m => m.id === id);
+        const firstandlastname = (mentor.firstName +" "+ mentor.lastName)
+        //id = firstandlastname
+        
+      
+        return mentor ? firstandlastname : null; 
+      })
+      console.log (learner)
+      return learner
+    }).filter(name => name)
+
+    
+      console.log (learners)
+
   // {
   //   id: 6,
   //   fullName: "Bob Johnson",
@@ -38,7 +72,7 @@ async function sprintChallenge5() { // Note the async keyword so you can use `aw
 
   // 👇 ==================== TASK 3 START ==================== 👇
 
-  for (let learner of learners) { // looping over each learner object
+  for (let learner of combineData) { // looping over each learner object
 
     // 🧠 Flesh out the elements that describe each learner
     // ❗ Give the elements below their (initial) classes, textContent and proper nesting.
