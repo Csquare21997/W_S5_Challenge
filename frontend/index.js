@@ -16,16 +16,7 @@ async function sprintChallenge5() { // Note the async keyword so you can use `aw
   
   const combineData = []
   
-  learners.forEach ((learner)=> {
-    const newlearner = {
-      ...learner, 
-      mentors: learner.mentors.map ((mentorId)=>{
-        const mentorName = mentors.find ((mentorObject)=> mentorId == mentorObject.id)
-     return mentorName.firstName + " " + mentorName.lastName
-      })
-    }
-    combineData.push (newlearner)
-  })
+  
     
 
   // 👆 ==================== TASK 1 END ====================== 👆
@@ -37,21 +28,20 @@ async function sprintChallenge5() { // Note the async keyword so you can use `aw
   // ❗ Fix the `learners` array so that each learner ends up with this exact structure:
 
 
-    learners = learners.map(learner => {
-      const mentorNames = learner.mentors.map(id => {
-        const mentor = mentors.find(m => m.id === id);
-        const firstandlastname = (mentor.firstName +" "+ mentor.lastName)
-        //id = firstandlastname
-        
-      
-        return mentor ? firstandlastname : null; 
+  learners.forEach ((learner)=> {
+    const newlearner = {
+      ...learner, 
+      mentors: learner.mentors.map ((mentorId)=>{
+        const mentorName = mentors.find ((mentorObject)=> mentorId == mentorObject.id)
+     return mentorName.firstName + " " + mentorName.lastName
       })
-      console.log (learner)
-      return learner
-    }).filter(name => name)
+    }
+    combineData.push (newlearner)
+  })
+  console.log (combineData)
 
     
-      console.log (learners)
+   
 
   // {
   //   id: 6,
@@ -73,6 +63,7 @@ async function sprintChallenge5() { // Note the async keyword so you can use `aw
   // 👇 ==================== TASK 3 START ==================== 👇
 
   for (let learner of combineData) { // looping over each learner object
+    
 
     // 🧠 Flesh out the elements that describe each learner
     // ❗ Give the elements below their (initial) classes, textContent and proper nesting.
@@ -86,6 +77,26 @@ async function sprintChallenge5() { // Note the async keyword so you can use `aw
     const email = document.createElement('div')
     const mentorsHeading = document.createElement('h4')
     const mentorsList = document.createElement('ul')
+
+
+    card.classList.add ("card")
+    mentorsHeading.classList.add ("closed")
+
+    heading.textContent = learner.fullName
+    email.textContent = learner.email
+    mentorsHeading.textContent = "Mentors"
+    
+    card.appendChild (heading)
+    card.appendChild (email)
+    card.appendChild (mentorsHeading)
+
+    learner.mentors.forEach((mentorsname) =>{
+      const listelement = document.createElement ('li')
+     mentorsList.appendChild(listelement)
+     listelement.textContent = mentorsname
+    } )
+
+
 
     // 👆 ==================== TASK 3 END ====================== 👆
 
